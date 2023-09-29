@@ -45,9 +45,6 @@ y = np.zeros((height, width), np.float32) + img[:, :, 0]
 cr = np.zeros((height, width), np.float32) + img[:, :, 1]
 cb = np.zeros((height, width), np.float32) + img[:, :, 2]
 
-###########################
-#2. Reducción de resolución de crominancia:
-###########################
 
 # size of the image in bits before compression
 totalNumberOfBitsWithoutCompression = len(y) * len(y[0]) * 8 + len(cb) * len(cb[0]) * 8 + len(cr) * len(cr[0]) * 8
@@ -57,14 +54,15 @@ cr = cr - 128
 cb = cb - 128
 
 
+###########################
+#2. Reducción de resolución de crominancia:
+###########################
+
 # 4: 2: 2 subsampling is used # another subsampling scheme can be used
 # thus chrominance channels should be sub-sampled
 # define subsampling factors in both horizontal and vertical directions
 SSH, SSV = 2, 2
 
-###########################
-#División en bloques de pixeles de 8x8
-###########################
 
 # filter the chrominance channels using a 2x2 averaging filter # another type of filter can be used
 crf = cv2.boxFilter(cr, ddepth=-1, ksize=(2, 2))
@@ -73,7 +71,7 @@ crSub = crf[::SSV, ::SSH]
 cbSub = cbf[::SSV, ::SSH]
 
 ###########################
-# 4. Transformada de coseno discreta DCT
+#3. División en bloques de pixeles de 8x8
 ###########################
 
 # check if padding is needed,
@@ -100,6 +98,9 @@ else:
         for j in range(len(crSub[0])):
             crPadded[i, j] += crSub[i, j]
             cbPadded[i, j] += cbSub[i, j]
+###########################
+# 4. Transformada de coseno discreta DCT
+###########################
 
 # get DCT of each channel
 # define three empty matrices

@@ -14,7 +14,15 @@ ycbcr_image = cv2.cvtColor(image, cv2.COLOR_BGR2YCrCb)
 #subsampling_ratio = (2, 2)  # (horizontal subsampling factor, vertical subsampling factor)
 
 # Perform subsampling on the Cb and Cr channels
-#ycbcr_image[:, :, 1::] = cv2.resize(ycbcr_image[:, :, 1::], None, fx=1/subsampling_ratio[0], fy=1/subsampling_ratio[1], interpolation=cv2.INTER_LINEAR)
+#ycbcr_image[:, :, 1::]= cv2.resize(ycbcr_image[:, :, 1::], None, fx=1/subsampling_ratio[0], fy=1/subsampling_ratio[1], interpolation=cv2.INTER_LINEAR)
+
+SSV=2
+SSH=2
+crf=cv2.boxFilter(ycbcr_image[:,:,1],ddepth=-1,ksize=(2,2))
+cbf=cv2.boxFilter(ycbcr_image[:,:,2],ddepth=-1,ksize=(2,2))
+crsub=crf[::SSV,::SSH]
+cbsub=cbf[::SSV,::SSH]
+ycbcr_image=[ycbcr_image[:,:,0],crsub,cbsub]
 
 #3. Block Splitting: Split the image into 8x8 blocks.
 
@@ -35,9 +43,9 @@ quantization_matrix = np.array([[16, 11, 10, 16, 24, 40, 51, 61],
 
 print(dct_image.shape)
 
-quantized_dct_image = np.zeros_like(dct_image)
-for i in range(3):
-    quantized_dct_image[:, :, i] = np.round(dct_image[:, :, i] / quantization_matrix)
+#quantized_dct_image = np.zeros_like(dct_image)
+#for i in range(3):
+#    quantized_dct_image[:, :, i] = np.round(dct_image[:, :, i] / quantization_matrix)
 
 # Save the quantized DCT coefficients as a compressed image
-cv2.imwrite("compressed_image.jpg", quantized_dct_image.astype(np.uint8))
+#cv2.imwrite("compressed_image.jpg", quantized_dct_image.astype(np.uint8))
