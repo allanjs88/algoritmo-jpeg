@@ -1,4 +1,0 @@
-numpy==1.26.0
-opencv-python==4.8.0.76
-Pillow==10.0.1
-scipy==1.11.2
