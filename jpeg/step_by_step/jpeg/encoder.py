@@ -26,14 +26,11 @@ class Encoder():
         else:
             raise ValueError("Type choice %s unknown" %(type))
 
-    def downsampling(self, matrix, k=2, type=2):
+    def downsampling(self, matrix, type=2):
         """ Downsamplig function
 
         Args:
             img_ycbcr : Image matrix with 3 channels: Y, Cb and Cr
-            nrow      : Number of rows
-            ncol      : Number of columns
-            k         : Downsampling reduction factor
             type      : Downsampling types. Type 0, represents no downsampling.
                         Type 1, represents columns reduction, and type 2, rows
                         and columns reduction.
@@ -43,9 +40,14 @@ class Encoder():
 
         """
         if type == 1:
-            ds_img = matrix[:,0::k]
+            ds_img = matrix[::2, :] # 4:1:0 
         elif type == 2:
-            ds_img = matrix[0::k,0::k]
+            ds_img = matrix[::2, :] # 4:2:0
+        elif type == 3:
+            ds_img = matrix[:, ::2] # 4:2:2
+        elif type==4:
+            matrix[:] = 0 #Blanco y negro
+            ds_img = matrix
         else:
             ds_img = matrix
 
@@ -92,8 +94,8 @@ class Encoder():
         Cr  = img_ycbcr[:,:,2] - 128
 
         # Apply downsampling to Cb and Cr
-        Cb = self.downsampling(Cb, src_img_height, src_img_width)
-        Cr = self.downsampling(Cr, src_img_height, src_img_width)
+        Cb = self.downsampling(Cb, 4)
+        Cr = self.downsampling(Cr, 4)
 
         # Add zero-padding if needed
         Y  = utils.zero_padding(Y)
