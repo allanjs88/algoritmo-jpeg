@@ -1,6 +1,5 @@
 from PIL import Image
 
-IMAGE_PATH = "../images/"
 
 def encode_and_save_image(input_path):
     # Abrir la imagen original
@@ -22,12 +21,4 @@ def decode_and_save_image(encoded_path):
     encoded_image.save(decoded_path, 'JPEG')
     print(f'Imagen decodificada y guardada en {decoded_path}')
 
-if __name__ == '__main__':
-    # Reemplaza 'tu_imagen.jpg' con la ruta de tu imagen
-    input_image_path = IMAGE_PATH + 'Carro.jpg'
-    
-    # Codificar y guardar la imagen
-    encoded_path = encode_and_save_image(input_image_path)
-    
-    # Decodificar y guardar la imagen
-    decode_and_save_image(encoded_path)
+

@@ -1,11 +1,24 @@
-from PIL import Image
+import os
+from jpeg_pillow import encode_and_save_image, decode_and_save_image
+from utils import is_image
 
-# Open the image you want to compress
-image = Image.open("Carro.jpg")
+IMAGE_PATH = "images/"
+ENCRYPTED_IMAGE_PATH = "encrypted_images/"
 
-# Specify the compression quality (0-100, higher values mean better quality)
-# You can adjust this value as needed
-compression_quality = 1
+if __name__ == '__main__':
 
-# Save the compressed image
-image.save("compressed_image2.jpg", format="JPEG", quality=compression_quality)
+    images = os.listdir(IMAGE_PATH)
+    print(list)
+
+    for image in images:
+        if is_image(image):
+            # Reemplaza 'tu_imagen.jpg' con la ruta de tu imagen
+            input_image_path = IMAGE_PATH + image
+            
+            # Codificar y guardar la imagen
+            encoded_path = encode_and_save_image(input_image_path)
+            
+            # Decodificar y guardar la imagen
+            decode_and_save_image(encoded_path)
+        else:
+            print(f"{input_image_path} is not a valid image.")
