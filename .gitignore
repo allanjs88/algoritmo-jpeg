@@ -7,5 +7,6 @@ jpeg/__pycache__/
 .vscode/
 
 env
-*.cod
+*.jpeg
+*.webp
 **/encrypted_images/
