@@ -5,10 +5,12 @@ def is_image(file_path):
     # Check the file extension
     file_extension = os.path.splitext(file_path)[-1].lower()
     image_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff', '.webp', '.svg', '.ico']
+    return file_extension in image_extensions
 
-    if file_extension in image_extensions:
-        return True
+def get_file_extension(file):
+    split_tup = os.path.splitext(file)
+    return split_tup[1]
 
-    # Check the file content using imghdr
-    image_type = imghdr.what(file_path)
-    return image_type is not None
+def create_dir(path):
+    if not os.path.exists(path):
+        os.makedirs(path)

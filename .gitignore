@@ -7,3 +7,5 @@ jpeg/__pycache__/
 .vscode/
 
 env
+*.cod
+**/encrypted_images/
