@@ -1,7 +1,5 @@
 import os
-from utils import is_image, get_file_extension, create_dir
-from jpeg.jpeg_pillow import encode_and_save_image_jpeg, decode_and_save_image_jpeg
-from webp.webp_pillow import encode_and_save_image_webp, decode_and_save_image_webp
+from utils import is_image, get_file_extension, create_dir, encode_and_save_image, decode_and_save_image
 
 IMAGE_PATH = "images/"
 ENCRYPTED_JPEG_IMAGE_PATH = "jpeg_images/"
@@ -20,12 +18,8 @@ def generate_input_images(is_jpeg, images_path, dest_path):
             encrypted_images_path = dest_path + image
             encrypted_images_path = encrypted_images_path.replace(extension, '_2.jpg')
 
-            if is_jpeg:
-                encoded_path = encode_and_save_image_jpeg(input_image_path)
-                decode_and_save_image_jpeg(encoded_path, encrypted_images_path)
-            else:
-                encoded_path = encode_and_save_image_webp(input_image_path)
-                decode_and_save_image_webp(encoded_path, encrypted_images_path)
+            encoded_path = encode_and_save_image(input_image_path, 'JPEG' if is_jpeg else 'WEBP')
+            decode_and_save_image(encoded_path, encrypted_images_path)
         else:
             print(f"{image} is not a valid image.")
 
